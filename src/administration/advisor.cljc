@@ -19,7 +19,9 @@
      :rationale str}
   LLM parse failures always yield `:confidence 0.0` (never fabricate
   confidence), which forces the governor to escalate/hold."
-  (:require [clojure.string :as str]))
+  (:require #?(:clj  [clojure.edn :as edn]
+               :cljs [cljs.reader :as edn])
+            [clojure.string :as str]))
 
 (defprotocol Advisor
   (-advise [advisor store request] "request -> proposal map"))
@@ -48,7 +50,7 @@
 
 (defn- parse-proposal [content]
   (try
-    (let [p (read-string content)]
+    (let [p (edn/read-string content)]
       (if (map? p)
         (assoc p :effect :propose)
         {:op :unknown :effect :propose :confidence 0.0 :stake :high
