@@ -21,7 +21,7 @@
   confidence), which forces the governor to escalate/hold."
   (:require #?(:clj  [clojure.edn :as edn]
                :cljs [cljs.reader :as edn])
-            [clojure.string :as str]))
+            [kotoba.lang.text :as str]))
 
 (defprotocol Advisor
   (-advise [advisor store request] "request -> proposal map"))
