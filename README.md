@@ -54,10 +54,10 @@ Full itonami Actor pattern (per ADR-2607011000 / CLAUDE.md's Actors section): a 
                                            +-> :hold               (:hard? true)
 ```
 
-- `src/administration/store.cljc` — `Store` protocol + `MemStore`: policy records, regulations, office requests, an append-only audit ledger.
-- `src/administration/advisor.cljc` — `Advisor` protocol; `mock-advisor` (deterministic, default) proposes an office operation from a request; `llm-advisor` wraps a `langchain.model/ChatModel` — either way the advisor only ever produces a `:propose`-effect proposal, never a committed record, and LLM parse failures always yield `confidence 0.0` (forces escalation, never fabricated confidence).
-- `src/administration/governor.cljc` — `AdministrativeGovernor/check`: a pure function, wired as its own `:govern` node. Hard invariants (unregistered requester, unverified regulation, a proposal whose `:effect` isn't `:propose`) always route to `:hold`. Escalation invariants (sensitive topics, `:flag-compliance-conflict`, or low advisor confidence) always route to `:request-approval` — an `interrupt-before` node that the graph checkpoints and only resumes on explicit human approval (`actor/approve!`).
-- `src/administration/actor.cljc` — `build-graph`, `run-request!`, `approve!`: the `langgraph.graph/state-graph` wiring itself.
+- `src/administration/store.kotoba` — `Store` protocol + `MemStore`: policy records, regulations, office requests, an append-only audit ledger.
+- `src/administration/advisor.kotoba` — `Advisor` protocol; `mock-advisor` (deterministic, default) proposes an office operation from a request; `llm-advisor` wraps a `langchain.model/ChatModel` — either way the advisor only ever produces a `:propose`-effect proposal, never a committed record, and LLM parse failures always yield `confidence 0.0` (forces escalation, never fabricated confidence).
+- `src/administration/governor.kotoba` — `AdministrativeGovernor/check`: a pure function, wired as its own `:govern` node. Hard invariants (unregistered requester, unverified regulation, a proposal whose `:effect` isn't `:propose`) always route to `:hold`. Escalation invariants (sensitive topics, `:flag-compliance-conflict`, or low advisor confidence) always route to `:request-approval` — an `interrupt-before` node that the graph checkpoints and only resumes on explicit human approval (`actor/approve!`).
+- `src/administration/actor.kotoba` — `build-graph`, `run-request!`, `approve!`: the `langgraph.graph/state-graph` wiring itself.
 
 Proposal ops (all `:effect :propose` only, closed allowlist):
 - `:draft-briefing` — prepare a policy briefing document for administrator review.
