@@ -67,7 +67,7 @@ Proposal ops (all `:effect :propose` only, closed allowlist):
 - `:flag-compliance-conflict` — surface a potential compliance conflict for the administrator's attention (always escalates).
 
 ```bash
-clojure -M:test
+kbb -M:test
 ```
 
 This is what backs this repo's `:maturity :implemented` entry in [`kotoba-lang/occupation`](https://github.com/kotoba-lang/occupation).

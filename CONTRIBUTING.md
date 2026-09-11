@@ -5,7 +5,7 @@ cloud-itonami-isco-1112 welcomes contributions: bug reports, feature requests, p
 ## Getting started
 
 1. Clone this repository.
-2. Run tests: `clojure -M:test`.
+2. Run tests: `kbb -M:test`.
 3. Make your changes.
 4. Run tests again to verify.
 5. Submit a pull request.
